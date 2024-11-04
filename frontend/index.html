@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MySQL</title>
+  
+  <!-- Tailwind CSS vía CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1DA1F2',
+            secondary: '#14171A',
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <h1 class="mt-20 text-5xl font-extrabold text-center">
+    ¡Databases With MySQL/MariaDB!
+  </h1>
+
+  <div class="mt-16 max-w-xl mx-auto bg-white shadow-md rounded-lg p-6">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <div class="text-center">
+        <form id="createForm">
+          <button class="w-full bg-primary text-white py-3 px-6 rounded-lg text-lg font-bold transition-all hover:bg-primary/80">
+            Create Database
+          </button>
+        </form>
+      </div>
+      
+      <div class="text-center">
+        <form id="deleteForm">
+          <button class="w-full bg-red-500 text-white py-3 px-6 rounded-lg text-lg font-bold transition-all hover:bg-red-400">
+            Delete Database
+          </button>
+        </form>
+      </div>
+    
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mt-5">
+      <div class="text-center">
+        <form id="initBackup">
+          <button class="w-full bg-secondary text-white py-3 px-6 rounded-lg text-lg font-bold transition-all hover:bg-secondary/80">
+            Init Backup
+          </button>
+        </form>
+      </div>
+  
+    </div>
+  </div>
+
+  <div class="mt-16 max-w-7xl mx-auto bg-white shadow-md rounded-lg p-6 mt-10">
+
+    <div id="success-message" class="text-2xl mx-auto text-center mb-5 bg-blue-200 rounded-lg" hidden>
+      <p>Employee Created</p>
+    </div>
+
+    <div id="success-message-2" class="text-2xl mx-auto text-center mb-5 bg-blue-200 rounded-lg" hidden>
+      <p>Employee Updated</p>
+    </div>
+
+    <div id="success-message-3" class="text-2xl mx-auto text-center mb-5 bg-blue-200 rounded-lg" hidden>
+      <p>Employee Deleted</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-2 gap-6">
+
+      <div class="grid grid-rows-3">
+
+        <div class="text-center mt-10 h-max p-4 border-2">
+          <form id="createEmployee">
+            <input type="text" name="name" id="name" placeholder="Enter employee name" class="w-full h-12 mb-4 px-4 text-gray-700 placeholder-gray-500 focus:placeholder-gray-400 border border-gray-300 rounded-lg shadow-sm focus:border-primary focus:ring-primary focus:outline-none transition-all duration-300 enabled:hover:border-gray-400 disabled:opacity-75">
+            <input type="text" name="salary" id="salary" placeholder="Enter employee salary" class="w-full h-12 mb-4 px-4 text-gray-700 placeholder-gray-500 focus:placeholder-gray-400 border border-gray-300 rounded-lg shadow-sm focus:border-primary focus:ring-primary focus:outline-none transition-all duration-300 enabled:hover:border-gray-400 disabled:opacity-75">
+            <button class="w-full bg-primary text-white py-3 px-6 rounded-lg text-lg font-bold transition-all hover:bg-primary/80">
+              Create Employee
+            </button>
+          </form>
+        </div>
+
+        <div class="text-center mt-15 h-max p-4 border-2">
+          <form id="updateEmployee">
+            <input type="text" name="id" id="id" placeholder="Enter employee id" class="w-full h-12 mb-4 px-4 text-gray-700 placeholder-gray-500 focus:placeholder-gray-400 border border-gray-300 rounded-lg shadow-sm focus:border-primary focus:ring-primary focus:outline-none transition-all duration-300 enabled:hover:border-gray-400 disabled:opacity-75">
+            <input type="text" name="name" id="name" placeholder="Enter employee name" class="w-full h-12 mb-4 px-4 text-gray-700 placeholder-gray-500 focus:placeholder-gray-400 border border-gray-300 rounded-lg shadow-sm focus:border-primary focus:ring-primary focus:outline-none transition-all duration-300 enabled:hover:border-gray-400 disabled:opacity-75">
+            <input type="text" name="salary" id="salary" placeholder="Enter employee salary" class="w-full h-12 mb-4 px-4 text-gray-700 placeholder-gray-500 focus:placeholder-gray-400 border border-gray-300 rounded-lg shadow-sm focus:border-primary focus:ring-primary focus:outline-none transition-all duration-300 enabled:hover:border-gray-400 disabled:opacity-75">
+            <button class="w-full bg-secondary text-white py-3 px-6 rounded-lg text-lg font-bold transition-all hover:bg-secondary/80">
+              Update Employee
+            </button>
+          </form>
+        </div>
+
+        <div class="text-center mt-10 h-max p-4 border-2">
+          <form id="deleteEmployee">
+            <input type="text" name="id" id="id" placeholder="Enter employee id" class="w-full h-12 mb-4 px-4 text-gray-700 placeholder-gray-500 focus:placeholder-gray-400 border border-gray-300 rounded-lg shadow-sm focus:border-primary focus:ring-primary focus:outline-none transition-all duration-300 enabled:hover:border-gray-400 disabled:opacity-75">
+            <button class="w-full bg-red-500 text-white py-3 px-6 rounded-lg text-lg font-bold transition-all hover:bg-red-400">
+              Delete Employee
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="text-center">
+        <div id="employeesContainer">
+        </div>
+        <form id="getEmployees">
+          <button class="w-full bg-emerald-700 text-white py-3 px-6 rounded-lg text-lg font-bold transition-all hover:bg-emerald-600">
+            Get Employees
+          </button>
+        </form>
+      </div>
+    
+    </div>
+
+    
+  </div>
+
+  <div class="min-w-7xl min-h-14">
+
+  </div>
+
+  <script>
+
+    document.getElementById('createForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Evita el envío tradicional del formulario
+  
+      fetch('http://localhost:3000/api/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        alert('Base de datos creada con éxito');
+      })
+      .catch((error) => {
+        console.log('Error:', error.message);
+      });
+    });
+
+    document.getElementById('deleteForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Evita el envío tradicional del formulario
+  
+      fetch('http://localhost:3000/api/delete', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        alert('Base de datos eliminada con éxito');
+      })
+      .catch((error) => {
+        console.log('Error:', error.message);
+      });
+    });
+    
+    document.getElementById('initBackup').addEventListener('submit', function(event) {
+      event.preventDefault(); 
+
+      fetch('http://localhost:3000/api/backup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        alert('Backup de base de datos generado');
+      })
+      .catch((error) => {
+        console.log('Error:', error.message);
+      });
+    });
+
+    document.getElementById('getEmployees').addEventListener('submit', function(event) {
+      event.preventDefault(); 
+
+      let employeesContainerDiv = document.getElementById('employeesContainer');
+
+      fetch('http://localhost:3000/api/employees', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        // Limpiar el contenido del contenedor antes de agregar los nuevos elementos
+        employeesContainerDiv.innerHTML = '';
+
+        for (let i = 0; i < data.length; i++) {
+          let newEmployeeDiv = `<div class="min-w-14 h-max mx-auto border-2 mb-4">
+            <p class="">Id: ${data[i].id}</p>
+            <p class="">Name: ${data[i].name}</p>
+            <p class="">Salary: ${data[i].salary}</p>
+          </div>`;
+          // Insert the new employee data into the DOM
+          employeesContainerDiv.insertAdjacentHTML('beforeend', newEmployeeDiv);
+        }
+      })
+      .catch((error) => {
+        console.log('Error:', error.message);
+      });
+    });
+
+    document.getElementById('createEmployee').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const form = event.target; 
+
+      const name = form.querySelector('#name').value;
+      const salary = form.querySelector('#salary').value;
+
+      console.log(name, salary)
+
+      fetch('http://localhost:3000/api/employees', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name,
+          salary: salary
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        let message = document.getElementById('success-message');
+        message.removeAttribute('hidden');
+        setTimeout(() => {
+          message.setAttribute('hidden', true);
+        }, 4000 )
+      })
+      .catch((error) => {
+        console.log('Error:', error.message);
+      });
+
+    });
+
+    document.getElementById('updateEmployee').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const form = event.target; 
+
+      const id = form.querySelector('#id').value; 
+      const name = form.querySelector('#name').value; 
+      const salary = form.querySelector('#salary').value; 
+
+      fetch(`http://localhost:3000/api/employees/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name,
+          salary: salary
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        let message = document.getElementById('success-message-2');
+        message.removeAttribute('hidden');
+        setTimeout(() => {
+          message.setAttribute('hidden', true);
+        }, 4000 )
+      })
+      .catch((error) => {
+        console.log('Error:', error.message);
+      });
+
+    });
+
+    document.getElementById('deleteEmployee').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const form = event.target; 
+      const id = form.querySelector('#id').value; 
+
+      fetch(`http://localhost:3000/api/employees/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        let message = document.getElementById('success-message-3');
+        message.removeAttribute('hidden');
+        setTimeout(() => {
+          message.setAttribute('hidden', true);
+        }, 4000 )
+      })
+      .catch((error) => {
+        console.log('Error:', error.message);
+      });
+
+    });
+
+  </script>
+</body>
+</html>
